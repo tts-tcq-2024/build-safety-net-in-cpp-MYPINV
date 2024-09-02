@@ -52,10 +52,6 @@ char getSoundexCode(char c) {
     return mapping[c];
 }
 
-std::string appendSoundexCodes(const std::string& soundex, const std::string& name) {
-    return soundex + generateSoundexCodes(name);
-}
-
 string generateSoundexCodes(const std::string& name) {
     string soundexCodes;
     char prevCode = getSoundexCode(name[1]);
@@ -70,6 +66,11 @@ string generateSoundexCodes(const std::string& name) {
     
     return soundexCodes;
 }
+
+std::string appendSoundexCodes(const std::string& soundex, const std::string& name) {
+    return soundex + generateSoundexCodes(name);
+}
+
 
 std::string padSoundexCode(std::string soundex) {
     while (soundex.length() < 4) {
