@@ -16,19 +16,30 @@
 
 // Function to get the Soundex code for a given character
 char getSoundexCode(char c) {
-    static const char mapping[256] = {
-        // Initialize with '0' for all characters
-        ['A'] = '0', ['E'] = '0', ['I'] = '0', ['O'] = '0', ['U'] = '0',
-        ['H'] = '0', ['W'] = '0', ['Y'] = '0', // Vowels and ignored letters
-        ['B'] = '1', ['F'] = '1', ['P'] = '1', ['V'] = '1',
-        ['C'] = '2', ['G'] = '2', ['J'] = '2', ['K'] = '2', ['Q'] = '2',
-        ['S'] = '2', ['X'] = '2', ['Z'] = '2',
-        ['D'] = '3', ['T'] = '3',
-        ['L'] = '4',
-        ['M'] = '5', ['N'] = '5',
-        ['R'] = '6'
-    };
-    c = toupper(static_cast<unsigned char>(c)); // Ensure valid range for unsigned char
+    // Mapping array for Soundex codes
+    static char mapping[256];
+    static bool initialized = false;
+
+    // Initialize the mapping array only once
+    if (!initialized) {
+        for (int i = 0; i < 256; ++i) {
+            mapping[i] = '0'; // Default value for non-specified characters
+            cout << mapping[i] << endl;
+        }
+        // Define specific mappings
+        mapping['B'] = mapping['F'] = mapping['P'] = mapping['V'] = '1';
+        mapping['C'] = mapping['G'] = mapping['J'] = mapping['K'] = mapping['Q'] = mapping['S'] = mapping['X'] = mapping['Z'] = '2';
+        mapping['D'] = mapping['T'] = '3';
+        mapping['L'] = '4';
+        mapping['M'] = mapping['N'] = '5';
+        mapping['R'] = '6';
+        initialized = true;
+    }
+
+    // Convert character to uppercase
+    c = toupper(static_cast<unsigned char>(c));
+    cout << endl << mapping[c];
+    // Return the corresponding Soundex code
     return mapping[c];
 }
 
