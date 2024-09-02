@@ -67,18 +67,38 @@ char getSoundexCode(char c) {
 //     return soundexCodes;
 // }
 
+// std::string generateSoundexCodes(const std::string& name) {
+//     std::string soundexCodes;
+//  //   if (name.empty()) return soundexCodes;  // Handle empty name case
+
+//     char prevCode = getSoundexCode(name[0]);
+//     if (prevCode == '0') return soundexCodes; // Skip if the first character is non-significant
+
+//     soundexCodes += prevCode;
+
+//     for (size_t i = 1; i < name.length() && soundexCodes.length() < 3; ++i) {
+//         char code = getSoundexCode(name[i]);
+//         if (code != '0' && code != prevCode) {
+//             soundexCodes += code;
+//             prevCode = code;
+//         }
+//     }
+
+//     return soundexCodes;
+// }
+
 std::string generateSoundexCodes(const std::string& name) {
     std::string soundexCodes;
-    if (name.empty()) return soundexCodes;  // Handle empty name case
+    if (name.empty()) return soundexCodes;  // Return early for empty names
 
     char prevCode = getSoundexCode(name[0]);
-    if (prevCode == '0') return soundexCodes; // Skip if the first character is non-significant
+    if (prevCode == '0') return soundexCodes; // Skip non-significant first character
 
     soundexCodes += prevCode;
 
-    for (size_t i = 1; i < name.length() && soundexCodes.length() < 3; ++i) {
+    for (size_t i = 1; i < name.length(); ++i) {
         char code = getSoundexCode(name[i]);
-        if (code != '0' && code != prevCode) {
+        if (code != '0' && code != prevCode && soundexCodes.length() < 3) {
             soundexCodes += code;
             prevCode = code;
         }
@@ -86,6 +106,7 @@ std::string generateSoundexCodes(const std::string& name) {
 
     return soundexCodes;
 }
+
 
 
 std::string appendSoundexCodes(const std::string& soundex, const std::string& name) {
