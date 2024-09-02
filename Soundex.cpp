@@ -54,7 +54,7 @@ char getSoundexCode(char c) {
 
 string generateSoundexCodes(const std::string& name) {
     string soundexCodes;
-    char prevCode = getSoundexCode(name[1]);
+    char prevCode = getSoundexCode(name[0]);
 
     for (size_t i = 1; i < name.length() && soundexCodes.length() < 3; ++i) {
         char code = getSoundexCode(name[i]);
