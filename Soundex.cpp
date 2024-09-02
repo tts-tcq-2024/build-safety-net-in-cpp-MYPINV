@@ -71,6 +71,13 @@ string generateSoundexCodes(const std::string& name) {
     return soundexCodes;
 }
 
+std::string padSoundexCode(std::string soundex) {
+    while (soundex.length() < 4) {
+        soundex += '0';
+    }
+    return soundex;
+}
+
 // main function
 std::string generateSoundex(const std::string& name) {
     if (isNameEmpty(name)) return "";
