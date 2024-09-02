@@ -69,7 +69,7 @@ char getSoundexCode(char c) {
 
 std::string generateSoundexCodes(const std::string& name) {
     std::string soundexCodes;
- //   if (name.empty()) return soundexCodes;  // Handle empty name case
+    if (name.empty()) return soundexCodes;  // Handle empty name case
 
     char prevCode = getSoundexCode(name[0]);
     if (prevCode == '0') return soundexCodes; // Skip if the first character is non-significant
