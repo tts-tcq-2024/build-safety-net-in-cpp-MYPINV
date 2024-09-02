@@ -1,5 +1,6 @@
 #include "Soundex.h"
 #include <cctype>
+#include <cstring>
 
 // char getSoundexCode(char c) {
 //     c = toupper(c);
@@ -14,26 +15,26 @@
 //     }
 // }
 
-// Function to get the Soundex code for a given character
 char getSoundexCode(char c) {
-    // Mapping array for Soundex codes
     static char mapping[256];
     static bool initialized = false;
 
-    // Initialize the mapping array only once
     if (!initialized) {
-        for (int i = 0; i < 256; ++i) {
-            mapping[i] = '0'; // Default value for non-specified characters
-        }
-        // Define specific mappings
+        memset(mapping, '0', sizeof(mapping)); // Initialize all to '0'
+
         mapping['B'] = mapping['F'] = mapping['P'] = mapping['V'] = '1';
         mapping['C'] = mapping['G'] = mapping['J'] = mapping['K'] = mapping['Q'] = mapping['S'] = mapping['X'] = mapping['Z'] = '2';
         mapping['D'] = mapping['T'] = '3';
         mapping['L'] = '4';
         mapping['M'] = mapping['N'] = '5';
         mapping['R'] = '6';
+
         initialized = true;
     }
+
+    c = toupper(static_cast<unsigned char>(c));
+    return mapping[c];
+}
 
     // Convert character to uppercase
     c = toupper(static_cast<unsigned char>(c));
