@@ -24,7 +24,6 @@ char getSoundexCode(char c) {
     if (!initialized) {
         for (int i = 0; i < 256; ++i) {
             mapping[i] = '0'; // Default value for non-specified characters
-            cout << mapping[i] << endl;
         }
         // Define specific mappings
         mapping['B'] = mapping['F'] = mapping['P'] = mapping['V'] = '1';
@@ -38,7 +37,6 @@ char getSoundexCode(char c) {
 
     // Convert character to uppercase
     c = toupper(static_cast<unsigned char>(c));
-    cout << endl << mapping[c];
     // Return the corresponding Soundex code
     return mapping[c];
 }
