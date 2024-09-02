@@ -2,6 +2,8 @@
 #include <cctype>
 #include <cstring>
 
+using namespace std;
+
 // char getSoundexCode(char c) {
 //     c = toupper(c);
 //     switch (c) {
@@ -36,17 +38,10 @@ char getSoundexCode(char c) {
     return mapping[c];
 }
 
-    // Convert character to uppercase
-    c = toupper(static_cast<unsigned char>(c));
-    // Return the corresponding Soundex code
-    return mapping[c];
-}
-
-
 std::string generateSoundex(const std::string& name) {
     if (name.empty()) return "";
 
-    std::string soundex(1, toupper(name[0]));
+    string soundex(1, toupper(name[0]));
     char prevCode = getSoundexCode(name[0]);
 
     for (size_t i = 1; i < name.length() && soundex.length() < 4; ++i) {
