@@ -1,74 +1,49 @@
-#include "Soundex.h"
+#include <string>
 #include <cctype>
-#include <cstring>
+#include <unordered_map>
+#include <algorithm>
 
-using namespace std;
-
-// pure function to check if the input 'name' is empy
-bool isNameEmpty(const string& name) {
-    return name.empty();
-}
-
-// pure function to convert the first character of input 'name' to uppercase
-char getFirstCharacterUppercase(const string& name) {
-    return toupper(name[0]);
-}
-
-string initializeSoundex(const string& name) {
-    return std::string(1, getFirstCharacterUppercase(name));
-}
-
-char getSoundexCode(char c) {
-    static char mapping[256];
-    static bool initialized = false;
-
-    if (!initialized) {
-        memset(mapping, '0', sizeof(mapping)); // Initialize all to '0'
-
-        mapping['B'] = mapping['F'] = mapping['P'] = mapping['V'] = '1';
-        mapping['C'] = mapping['G'] = mapping['J'] = mapping['K'] = mapping['Q'] = mapping['S'] = mapping['X'] = mapping['Z'] = '2';
-        mapping['D'] = mapping['T'] = '3';
-        mapping['L'] = '4';
-        mapping['M'] = mapping['N'] = '5';
-        mapping['R'] = '6';
-
-        initialized = true;
-    }
-
-    c = toupper(static_cast<unsigned char>(c));
-    return mapping[c];
-}
-
-string generateSoundexCodes(const std::string& name) {
-    string soundexCodes;
-    char prevCode = getSoundexCode(name[0]);
-
-    for (size_t i = 1; i < name.length() && soundexCodes.length() < 3; ++i) {
-        char code = getSoundexCode(name[i]);
-        if (code != '0' && code != prevCode) {
-            soundexCodes += code;
-            prevCode = code;
-        }
-    }
+// Function to map characters to their corresponding Soundex codes
+char mapToSoundexCode(char c) {
+    static const std::unordered_map<char, char> soundexMap = {
+        {'B', '1'}, {'F', '1'}, {'P', '1'}, {'V', '1'},
+        {'C', '2'}, {'G', '2'}, {'J', '2'}, {'K', '2'}, 
+        {'Q', '2'}, {'S', '2'}, {'X', '2'}, {'Z', '2'},
+        {'D', '3'}, {'T', '3'}, {'L', '4'}, {'M', '5'}, 
+        {'N', '5'}, {'R', '6'}
+    };
     
-    return soundexCodes;
+    c = toupper(c);
+    auto it = soundexMap.find(c);
+    return (it != soundexMap.end()) ? it->second : '0';
 }
 
-string appendSoundexCodes(const string& soundex, const string& name) {
-    return soundex + generateSoundexCodes(name);
-}
-
-std::string padSoundexCode(string soundex) {
-    while (soundex.length() < 4) {
-        soundex += '0';
+void appendSoundex(std::string& soundex, char code, char& prevCode) {
+    if (code != '0' && code != prevCode) {
+        soundex += code;
+        prevCode = code;
     }
-    return soundex;
 }
 
-// main function
-string generateSoundex(const string& name) {
-    if (isNameEmpty(name)) return "";
-    string soundex = initializeSoundex(name);
-    soundex = appendSoundexCodes(soundex, name);
-    return padSoundexCode(soundex);
+std::string paddingSoundex(const std::string& soundex) {
+    std::string paddedSoundex = soundex;
+    paddedSoundex.resize(4, '0');
+    return paddedSoundex;
+}
+// Helper function to build the Soundex code
+std::string buildSoundex(const std::string& name, char firstLetter, char prevCode, std::string soundex, size_t index) {
+   if (index >= name.length() || soundex.length() == 4) {
+        return paddingSoundex(soundex);
+    }
+
+    char code = mapToSoundexCode(name[index]);
+    appendSoundex(soundex, code, prevCode);
+
+    return buildSoundex(name, firstLetter, prevCode, soundex, index + 1);
+}
+
+std::string generateSoundex(const std::string& name) {
+    if (name.empty()) return "";  // Handle empty input
+
+    return buildSoundex(name, toupper(name[0]), mapToSoundexCode(name[0]), std::string(1, toupper(name[0])), 1);
 }
