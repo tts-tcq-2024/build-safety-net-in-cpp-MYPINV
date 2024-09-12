@@ -1,0 +1,44 @@
+1. HandlesSimpleName
+Objective: Verify that the function correctly generates the Soundex code for a common name.
+Input: "Smith"
+Expected Output: "S530"
+
+2. VowelAndNonMappedLettersIgnored
+Objective: Ensure that vowels and silent letters are ignored in the Soundex code generation.
+Input: "Smyth"
+Expected Output: "S530"
+
+3. HandlesRepeatingConsonants
+Objective: Verify that the function correctly handles repeating consonants and does not count them twice.
+Input: "Ashcraft"
+Expected Output: "A261"
+
+4. HandlesShortName
+Objective: Verify that a short name is padded to 4 characters, as required by Soundex.
+Input: "Li"
+Expected Output: "L000"
+
+5. HandlesSingleLetterName
+Objective: Verify that a single letter is padded to 4 characters.
+Input: "A"
+Expected Output: "A000"
+
+6. HandlesEmptyString
+Objective: Verify that the function returns an empty string when the input is an empty string.
+Input: ""
+Expected Output: ""
+
+7. CaseInsensitive
+Objective: Ensure that the function treats uppercase and lowercase letters the same (case-insensitivity).
+Input: "Washington" and "washington"
+Expected Output: Both should produce "W252"
+
+8. HandlesNonMappedLetters
+Objective: Verify that names composed only of characters that do not map to Soundex codes (like vowels) are handled correctly.
+Input: "Aeio"
+Expected Output: "A000"
+
+9. HandlesNameWithSpaces
+Objective: Verify that a name consisting only of spaces is treated as an empty string.
+Input: " "
+Expected Output: ""
